@@ -68,7 +68,9 @@
        //untuk membuat sebuah nilai random
        $ran = rand();
        $ekstensi = ['png','jpg','jpeg','svg'];
-
+       $namafile = $_FILES['foto']['name'];
+       $ukuran = $_FILES['foto']['size'];
+       $ext = pathinfo($namafile, PATHINFO_EXTENSION);
        //membuat sebuah validasi
        if (empty($nik) || empty($nama) || empty($kelas) || empty($jurusan) || empty($alamat)) {
          echo "<script>alert('Data tidak boleh kosong !');</script>";
@@ -77,18 +79,28 @@
         echo '<script>alert("Nik sudah ada !");</script>';
         //input data ke database
        } else {
-        $input = $connect->query("insert into siswa(nik,nama,kelas,jurusan,alamat) values ('$nik','$nama','$kelas','$jurusan','$alamat')");
-        if ($input){
+        if (!in_array($ext, $ekstensi)) {
             echo '<script>
-                  alert("Data berhasil ditambahkan !");
-                  window.location.href = "halaman_admin.php";  
+                  alert("Format file tidak sesuai");
                   </script>';
         } else {
-            echo '<script>
-                  alert(" gagal Maning !");  
-                  </script>';
+            if ($ukuran < 1044070) {
+                $xx = $ran.'_'.$namafile;
+                //untuk menampung file kedalam folder yang dituju
+                move_uploaded_file($_FILES['foto']['tmp_name'], 'images/'.$ran.'_'.$namafile);
+                //query untuk menyimpan data di database
+                $connect->query("insert into siswa(nik,nama,foto,kelas,jurusan,alamat) values ('$nik','$nama','$xx','$kelas','$jurusan','$alamat')");
+                echo '<script>
+                    alert("Data berhasil ditambahkan !");
+                    window.location.href = "halaman_admin.php";  
+                </script>';
+            } else {
+                echo '<script>
+                     alert(" gagal Maning !");  
+                </script>';
+              }
+           }
         }
-       }
     }
 ?>
 </body>
