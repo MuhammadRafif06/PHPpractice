@@ -11,7 +11,7 @@
      <a href="halaman_admin.php">Kembali</a>
 
      <!-- form untuk mengisi data -->
-     <form method="post">
+     <form method="post" enctype="multipart/form-data">
         <table width="25%" border="0">
             <tr>
                 <td>Nik</td>
@@ -20,6 +20,10 @@
             <tr>
                 <td>Nama</td>
                 <td><input type="text" name="nama"></td>
+            </tr>
+            <tr>
+                <td>Foto</td>
+                <td><input type="file" name="foto"></td>
             </tr>
             <tr>
                 <td>Kelas</td>
@@ -54,11 +58,16 @@
     require_once 'koneksi.php';
     //untuk mengirim data ke table users
     if (isset($_POST['submit'])){
-       $nik = strip_tags($_POST['nik']);
-       $nama = strip_tags($_POST['nama']);
-       $kelas = strip_tags($_POST['kelas']);
-       $jurusan = strip_tags($_POST['jurusan']);
-       $alamat = strip_tags($_POST['alamat']);
+       $nik = ($_POST['nik']);
+       $nama = ($_POST['nama']);
+       $foto = ($_POST['foto']);
+       $kelas = ($_POST['kelas']);
+       $jurusan = ($_POST['jurusan']);
+       $alamat = ($_POST['alamat']);
+
+       //untuk membuat sebuah nilai random
+       $ran = rand();
+       $ekstensi = ['png','jpg','jpeg','svg'];
 
        //membuat sebuah validasi
        if (empty($nik) || empty($nama) || empty($kelas) || empty($jurusan) || empty($alamat)) {

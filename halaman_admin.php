@@ -25,20 +25,37 @@
     <a href="logout_role.php">logout</a>
 
 <!-- Buat fungsi ke halaman tambah data -->
-<a href="tambah_admin.php">Tambah Data</a> 
-<!-- Buat table untuk menampun datanya-->
-<table width="100%" border="1">
-    <tr>
-        <th>Nik</th>
-        <th>Nama</th>
-        <th>Kelas</th>
-        <th>Jurusan</th>
-        <th>Alamat</th>
-        <th>Opsi</th>
-    </tr>
+    <a href="tambah_admin.php">Tambah Data</a> 
+
+    <br>
+
+    <form method="get">
+        <!--form input untuk mengisi data yang akan dicari-->
+        <input type="text" name="search" placeholder="cari data." value="<?php if(isset($_GET['search'])){ echo $_GET['search'];} ?>">
+        <button type="submit">cari</button>
+    </form>
+    <!-- Buat table untuk menampun datanya-->
+    <table width="100%" border="1">
+        <tr>
+            <th>Nik</th>
+            <th>Nama</th>
+            <th>Foto</th>
+            <th>Kelas</th>
+            <th>Jurusan</th>
+            <th>Alamat</th>
+            <th>Opsi</th>
+        </tr>
     <!-- Buat fungsi read data -->
     <?php
-        $hasil = mysqli_query($connect, "select * FROM siswa ORDER BY id DESC");
+        //ketika mengklik search
+        if (isset($_GET['search'])) {
+            $katacari = $_GET['search'];
+
+            $query = "select * from siswa where nama like '%".$katacari."%' order by id desc"; 
+        } else {
+            $query = "SELECT * FROM siswa ORDER BY id DESC";
+        }
+        $hasil = mysqli_query($connect, $query );
         // me loop hasil query dari $hasil
         if ($hasil -> num_rows > 0){
         foreach ($hasil as $data) {

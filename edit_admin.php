@@ -9,8 +9,34 @@
 <body>
 <form method="post">
     <?php
-        //fungsi edit data
         include('koneksi.php');
+        //fungsi update data
+        //jikalau tombol update di klik
+        if (isset($_POST['update'])){
+            //memanggil semua column yg ingin diupdate
+            $id = $_POST['id'];
+            $nik = $_POST['nik'];
+            $nama = $_POST['nama'];
+            $jurusan = $_POST['jurusan'];
+            $kelas = $_POST['kelas'];
+            $alamat = $_POST['alamat'];
+
+            //membuat query utk update data
+            $result = mysqli_query($connect, "update siswa set nik ='$nik', nama='$nama', kelas='$kelas', jurusan='$jurusan', alamat='$alamat' where id=$id");
+
+            if ($result) {
+                echo "<script>
+                    alert('berhasil update data')
+                    window.location.href='halaman_admin.php'
+                    </script>";
+            } else {
+                echo "<script>
+                    alert('gagal!')
+                    </script>";
+            }
+        }
+        //fungsi edit data
+        
         //memanggil parmater id yang akan diedit
         $id = $_GET['id'];
         //membuta query untuk mengedit data berdasarkan paramter id
@@ -42,10 +68,10 @@
                 <td>Jurusan</td>
                 <td>
                     <select name="jurusan">
-                        <option selected disabled>-- Pilih Jurusan --</option>
-                        <option value="RPL">RPL</option>
-                        <option value="TKJ">TKJ</option>
-                        <option value="DMM">DMM</option>
+                        <!-- $jurusan didapat dari hasil loopingan object-->
+                        <option <?php if ($jurusan == 'RPL') {echo 'selected';}?> value="RPL">RPL</option>
+                        <option <?php if ($jurusan == 'TKJ') {echo 'selected';}?> value="TKJ">TKJ</option>
+                        <option <?php if ($jurusan == 'DMM') {echo 'selected';}?> value="DMM">DMM</option>
                     </select>    
                 </td>
             </tr>
