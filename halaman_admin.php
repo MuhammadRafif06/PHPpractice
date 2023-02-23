@@ -59,17 +59,34 @@
         // me loop hasil query dari $hasil
         if ($hasil -> num_rows > 0){
         foreach ($hasil as $data) {
-                echo "<tr>
+        if ($data['foto'] == null ) {
+            echo "<tr>
                 <td>".$data['nik']."</td>
                 <td>".$data['nama']."</td>
+                <td>sengaja ngga upload, takut dia ilfeel</td>
                 <td>".$data['kelas']."</td>
                 <td>".$data['jurusan']."</td>
                 <td>".$data['alamat']."</td>
                 <td>
-                    <a href='edit_admin.php?id=".$data['id']."'>Edit</a> |
-                    <a href='hapus_admin.php?id=".$data['id']."'>Hapus</a>
-                </td>
-            </tr>";   
+                <a href='edit_admin.php?id=".$data['id']."'>Edit</a> |
+                <a href='hapus_admin.php?id=".$data['id']."&&foto=".$data['foto']."'>Hapus</a>
+            </td>
+        </tr>";   
+        } else {
+            echo "<tr>
+                <td>".$data['nik']."</td>
+                <td>".$data['nama']."</td>
+                <td><img src='images/".$data['foto']."' width='50' height='50'></td>
+                <td>".$data['kelas']."</td>
+                <td>".$data['jurusan']."</td>
+                <td>".$data['alamat']."</td>
+                <td>
+                <a href='edit_admin.php?id=".$data['id']."'>Edit</a> |
+                <a href='hapus_admin.php?id=".$data['id']."&&foto=".$data['foto']."'>Hapus</a>
+            </td>
+        </tr>"; 
+        }
+              
         }
             } else {
                 echo "<tr><td colspan='6'>Data Masih Kosong</td></tr>";
